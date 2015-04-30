@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import argparse
 
 def q_00():
     seed = "stressed"
@@ -53,4 +54,16 @@ def q_06():
     
 
 if __name__ == '__main__':
-    q_06()
+    
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--n', type=str, dest='n', required=True, default=0, help='question number (default: 00)')    
+
+    args = parser.parse_args()
+    args_dict =  vars(args)
+    number = args_dict["n"]
+    func_name = lambda x: x if "q_" in x else "q_"+x
+    name = func_name(number.zfill(2))
+    
+    import __main__
+    f = getattr(__main__, name)
+    f()
